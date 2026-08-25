@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 彻底开启移动端/平板端手势自由缩放 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"/>
+  <title>Cao Jiajia | 个人主页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cinzel:wght@500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ================= 莫兰迪绿主题变量 ================= */
+    :root {
+      --bg-green-light: #f2f7f4;
+      --bg-green-mid: #e1efe6;
+      --bg-green-soft: #d3e7da;
+      --accent-color: #2d5a43;
+      --accent-hover: #1e3f2e;
+      --text-main: #1f3329;
+      --text-sub: #547063;
+      --card-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(225, 242, 232, 0.72) 100%);
+      --card-border: rgba(255, 255, 255, 0.95);
+      --shadow-soft: 0 16px 40px rgba(45, 90, 67, 0.1);
+      --shadow-hover: 0 24px 50px rgba(45, 90, 67, 0.2);
+      --border-radius: 24px;
+      /* 基准屏幕尺寸 */
+      --base-width: 1965.6px;
+      --base-height: 1105px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 允许手势缩放和双向滚动容器 */
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      font-family: 'Noto Sans SC', sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg-green-light);
+      /* 关键：恢复系统默认手势缩放行为 */
+      touch-action: manipulation;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* 全局背景：渐变 + 网格底纹图案 */
+    .bg-mesh {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 12% 18%, rgba(200, 230, 210, 0.85) 0%, transparent 45%),
+        radial-gradient(circle at 85% 15%, rgba(225, 245, 230, 0.9) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(185, 220, 200, 0.75) 0%, transparent 55%),
+        linear-gradient(135deg, #eaf3ed 0%, #d8ebd9 50%, #cce3d5 100%);
+      filter: blur(10px);
+    }
+
+    .bg-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0.35;
+      background-image: 
+        radial-gradient(var(--accent-color) 0.8px, transparent 0.8px),
+        linear-gradient(to right, rgba(45, 90, 67, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(45, 90, 67, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px, 50px 50px, 50px 50px;
+      pointer-events: none;
+    }
+
+    /* 视口自适应外层容器 */
+    .app-viewport {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--base-width);
+      height: var(--base-height);
+      transform-origin: center center;
+    }
+
+    /* 顶部导航栏 */
+    header {
+      position: absolute;
+      top: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 100px);
+      max-width: 1700px;
+      height: 85px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 36px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(230, 245, 236, 0.82) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
+      border: 1.5px solid var(--card-border);
+      border-radius: 50px;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-size: 31.2px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+    .logo-badge {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #2d5a43, #1e3f2e);
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(45, 90, 67, 0.25);
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(235, 243, 238, 0.8), rgba(215, 235, 222, 0.6));
+      padding: 5px;
+      border-radius: 40px;
+    }
+
+    /* 统一导航链接及联系我按钮的样式规则 */
+    .nav-link-item {
+      text-decoration: none;
+      color: var(--text-sub);
+      font-size: 21.6px;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 26px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .nav-link-item:hover {
+      color: #fff;
+      background: linear-gradient(135deg, #2d5a43 0%, #1e3f2e 100%);
+      box-shadow: 0 6px 16px rgba(45, 90, 67, 0.3);
+    }
+
+    /* 高亮状态：精确覆盖所有类型按钮 */
+    .nav-link-item.active {
+      color: #fff !important;
+      background: linear-gradient(135deg, #2d5a43 0%, #1e3f2e 100%) !important;
+      box-shadow: 0 6px 16px rgba(45, 90, 67, 0.35) !important;
+    }
+
+    /* 联系我独立基础样式 */
+    .contact-btn-style {
+      background: linear-gradient(135deg, #1f3329 0%, #2d5a43 100%);
+      color: #fff;
+      padding: 8px 22px;
+      border-radius: 32px;
+      text-decoration: none;
+      font-size: 21.6px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(31, 51, 41, 0.2);
+    }
+
+    .contact-btn-style:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(45, 90, 67, 0.35);
+      background: linear-gradient(135deg, #2d5a43 0%, #1e3f2e 100%);
+    }
+
+    /* 横向翻页 */
+    .slider-container {
+      width: calc(var(--base-width) * 6);
+      height: 100%;
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    section {
+      width: var(--base-width);
+      height: var(--base-height);
+      flex-shrink: 0;
+      padding: 120px 100px 40px 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    .section-slogan-cn {
+      font-size: 57.2px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 2px;
+    }
+
+    .section-slogan-en {
+      font-size: 27.3px;
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-sub);
+      margin-top: 8px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      opacity: 0.88;
+    }
+
+    .edu-header { margin-bottom: 60px; }
+    .campus-header { margin-bottom: 35px; }
+    .intern-header { margin-bottom: 60px; }
+    .skill-header { margin-bottom: 60px; }
+
+    /* 左右翻页按钮 */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(230, 245, 236, 0.8) 100%);
+      border: 1.5px solid var(--card-border);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 90;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s ease;
+      font-size: 24px;
+      color: var(--text-main);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-arrow:hover { 
+      background: linear-gradient(135deg, #2d5a43 0%, #1e3f2e 100%); 
+      color: #fff;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: var(--shadow-hover);
+    }
+    .nav-arrow.left { left: 30px; }
+    .nav-arrow.right { right: 30px; }
+    .nav-arrow.disabled { opacity: 0.25; cursor: not-allowed; transform: translateY(-50%) scale(1); }
+
+    .glass-card {
+      background: var(--card-glass);
+      border: 1.5px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-soft);
+      transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .glass-card:hover {
+      transform: translateY(-8px) scale(1.015);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(255, 255, 255, 1);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(218, 240, 227, 0.85) 100%);
+    }
+
+    /* ================= 模块 1: 关于我 ================= */
+    .who-container {
+      display: flex;
+      gap: 50px;
+      align-items: center;
+      max-width: 1620px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .who-left {
+      flex: 1.1;
+      margin-left: 20px;
+      padding-top: 0;
+      position: relative;
+      z-index: 20;
+    }
+
+    .who-title {
+      font-size: 94.9px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 45px;
+    }
+
+    .who-subtitle-box { margin-bottom: 36px; }
+    .who-subtitle-cn { font-size: 40.3px; color: var(--accent-color); font-weight: 600; }
+    .who-subtitle-en { font-size: 22.1px; font-family: 'Poppins', sans-serif; color: var(--text-sub); margin-top: 5px; }
+
+    .who-motto {
+      font-size: 33.8px;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-bottom: 42px;
+      line-height: 1.6;
+      border-left: 5px solid var(--accent-color);
+      padding-left: 20px;
+      white-space: nowrap;
+      position: relative;
+      z-index: 25;
+      pointer-events: none;
+    }
+
+    .who-cards { display: flex; gap: 20px; }
+
+    .gradient-card {
+      padding: 16px 31px;
+      border-radius: 18px;
+      font-size: 23.4px;
+      font-weight: 600;
+      color: var(--accent-color);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(200, 235, 215, 0.75));
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 8px 26px rgba(45, 90, 67, 0.1);
+      transition: all 0.3s ease;
+      animation: autoPulse 3s ease-in-out infinite alternate, autoFloat 4s ease-in-out infinite alternate;
+    }
+    .gradient-card:hover {
+      transform: translateY(-6px) scale(1.05) !important;
+      box-shadow: 0 12px 30px rgba(45, 90, 67, 0.25);
+      background: linear-gradient(135deg, #2d5a43, #1e3f2e);
+      color: #fff;
+    }
+    .gradient-card:nth-child(2) { animation-delay: 0.6s, 0.6s; }
+    .gradient-card:nth-child(3) { animation-delay: 1.2s, 1.2s; }
+
+    @keyframes autoPulse {
+      0% { background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(200, 235, 215, 0.75)); }
+      100% { background: linear-gradient(135deg, rgba(210, 240, 222, 0.85), rgba(255,255,255,0.95)); }
+    }
+    @keyframes autoFloat {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-9px); }
+    }
+
+    .who-right {
+      position: relative;
+      flex: 1.3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      z-index: 10;
+    }
+
+    .photo-wrapper {
+      position: relative;
+      width: 598px;
+      height: 750px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0;
+    }
+
+    .connie-tag {
+      position: absolute;
+      top: 20px;
+      left: -26px;
+      font-family: 'Caveat', cursive;
+      font-size: 91px;
+      font-weight: 700;
+      color: var(--accent-color);
+      transform: rotate(-45deg);
+      z-index: 10;
+      text-shadow: 2px 4px 10px rgba(45, 90, 67, 0.15);
+      pointer-events: none;
+    }
+
+    .photo-bg-block {
+      position: absolute;
+      bottom: auto;
+      width: 100%;
+      height: 90%;
+      background: linear-gradient(135deg, rgba(205, 235, 218, 0.65), rgba(160, 210, 180, 0.45));
+      clip-path: polygon(6% 0%, 96% 4%, 100% 100%, 0% 100%);
+      border-radius: 45px;
+      z-index: 1;
+    }
+
+    .who-img {
+      position: relative;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      z-index: 2;
+      transform: scale(1.05);
+      transform-origin: center center;
+      filter: drop-shadow(0 15px 30px rgba(45, 90, 67, 0.2));
+      margin-bottom: 0;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .photo-wrapper:hover .who-img { transform: scale(1.08); }
+
+    /* ================= 模块 2: 教育背景 ================= */
+    .edu-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1620px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .edu-card {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .edu-card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .edu-card:hover img { transform: scale(1.08); }
+
+    .edu-card-body {
+      padding: 31px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+
+    .edu-school-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 3px;
+    }
+
+    .edu-school-row .school { font-size: 33.8px; font-weight: 700; color: var(--text-main); }
+    .edu-school-row .date { font-size: 22.1px; color: var(--accent-color); font-weight: 700; }
+
+    .edu-card-body .college { font-size: 23.4px; color: var(--text-sub); }
+    .edu-card-body .degree { font-size: 22.1px; color: var(--text-sub); }
+
+    .edu-card-body .major-highlight-full {
+      width: 100%;
+      margin-top: 10px;
+      background: linear-gradient(135deg, rgba(45, 90, 67, 0.12) 0%, rgba(45, 90, 67, 0.05) 100%);
+      color: var(--accent-color);
+      font-size: 23.4px;
+      font-weight: 700;
+      padding: 10px 0;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent-color);
+      border-right: 4px solid var(--accent-color);
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    /* ================= 模块 3: 校园成就 ================= */
+    .campus-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 24px;
+      max-width: 1620px;
+      width: 100%;
+    }
+
+    .paper-item-card {
+      padding: 26px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
+    }
+
+    .paper-header-row {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .paper-date { font-size: 22.1px; font-weight: 700; color: var(--accent-color); margin-right: 8px; }
+
+    .paper-tag-highlight {
+      font-size: 19.5px;
+      padding: 4px 13px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #2d5a43, #1e3f2e);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 5px 13px rgba(45, 90, 67, 0.25);
+    }
+
+    .paper-tag {
+      font-size: 18.2px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(45, 90, 67, 0.12);
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .paper-item-card h4 { font-size: 27.3px; margin-bottom: 8px; color: var(--text-main); }
+    .paper-item-card p { font-size: 20.8px; color: var(--text-sub); line-height: 1.45; }
+    .paper-item-card a { display: inline-block; margin-top: 12px; font-size: 20.8px; color: var(--accent-color); text-decoration: none; font-weight: 700; transition: color 0.3s; }
+    .paper-item-card a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    .scroll-card-box {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      height: 288px;
+      box-sizing: border-box;
+    }
+
+    .box-header-row {
+      display: flex;
+      align-items: baseline;
+      gap: 13px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(45, 90, 67, 0.15);
+      flex-shrink: 0;
+    }
+    .box-header-row h4 { font-size: 26px; color: var(--accent-color); font-weight: 700; }
+    .box-header-row span.sub-tip { font-size: 16px; color: var(--text-sub); opacity: 0.8; }
+
+    .scroll-content-work-grid {
+      overflow-y: auto !important;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding-right: 8px;
+      flex: 1;
+      height: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .scroll-content-work-grid::-webkit-scrollbar,
+    .award-sub-list::-webkit-scrollbar { width: 6px; }
+    .scroll-content-work-grid::-webkit-scrollbar-thumb,
+    .award-sub-list::-webkit-scrollbar-thumb { background: #96bba6; border-radius: 6px; }
+
+    .work-item-row {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(225,242,232,0.65));
+      padding: 8px 12px;
+      border-radius: 13px;
+      border: 1px solid rgba(255,255,255,0.9);
+      transition: all 0.3s ease;
+    }
+    .work-item-row:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 12px rgba(45, 90, 67, 0.1);
+    }
+    .work-item-row img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+    .work-item-row .info h5 { font-size: 18px; color: var(--text-main); line-height: 1.3; }
+    .work-item-row .info span { font-size: 15px; color: var(--text-sub); }
+
+    .award-triple-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      gap: 12px;
+      flex: 1;
+      height: calc(100% - 40px);
+      overflow: hidden;
+    }
+    
+    .award-sub-card { 
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.65), rgba(225, 242, 232, 0.45)); 
+      border-radius: 16px; 
+      padding: 10px; 
+      display: flex; 
+      flex-direction: column; 
+      height: 100%;
+      border: 1px solid rgba(255,255,255,0.7);
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .award-sub-card h5 { font-size: 19px; color: var(--accent-color); margin-bottom: 8px; font-weight: 700; flex-shrink: 0; }
+    
+    .award-sub-list { 
+      overflow-y: auto !important; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 6px; 
+      padding-right: 6px; 
+      flex: 1;
+      min-height: 0;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .award-sub-item { 
+      font-size: 15px; 
+      line-height: 1.35; 
+      color: var(--text-main); 
+      background: rgba(255, 255, 255, 0.55);
+      padding: 6px 8px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+    .award-sub-item:hover {
+      background: rgba(255, 255, 255, 0.95);
+    }
+    .award-sub-item .date { font-size: 13.5px; color: var(--accent-color); font-weight: 700; margin-right: 5px; }
+    .award-level-tag { font-size: 14px; font-weight: 700; color: var(--accent-color); margin: 6px 0 2px 0; border-bottom: 1.5px dashed rgba(45, 90, 67, 0.25); padding-bottom: 2px; }
+
+    /* ================= 模块 4: 实习经历 ================= */
+    .intern-container {
+      display: flex;
+      gap: 28px;
+      max-width: 1560px;
+      width: 100%;
+    }
+
+    .intern-card { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+    .intern-card img { width: 100%; height: 188px; object-fit: cover; transition: transform 0.5s ease; }
+    .intern-card:hover img { transform: scale(1.08); }
+
+    .intern-body { padding: 26px; flex: 1; }
+    .intern-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .intern-body h3 { font-size: 32.5px; }
+    .intern-date { font-size: 20.8px; color: var(--accent-color); font-weight: 700; }
+
+    .intern-dept-post-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18.7px;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 18px;
+      background: rgba(45, 90, 67, 0.08);
+      padding: 10px 14px;
+      border-radius: 10px;
+    }
+
+    .intern-tags { display: flex; flex-direction: column; gap: 12px; }
+    
+    .intern-tag-item {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(230, 245, 236, 0.85));
+      padding: 12px 18px;
+      border-radius: 13px;
+      font-size: 20.8px;
+      color: var(--text-main);
+      border-left: 4px solid var(--accent-color);
+      box-shadow: 0 4px 13px rgba(0,0,0,0.03);
+      line-height: 1.4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .intern-tag-item:hover {
+      transform: translateX(4px);
+      background: linear-gradient(135deg, #2d5a43, #1e3f2e);
+      color: #fff;
+    }
+
+    /* ================= 模块 5: 技能爱好 ================= */
+    .skill-layout-container {
+      display: flex;
+      gap: 36px;
+      max-width: 1560px;
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .skill-left-panel {
+      flex: 1.1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .tarot-area {
+      display: flex;
+      gap: 24px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .tarot-box {
+      flex: 1;
+      padding: 26px 20px 20px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .tarot-box h4 {
+      font-size: 36.4px; 
+      color: var(--accent-color);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .deck {
+      position: relative;
+      height: 234px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .tarot-card {
+      position: absolute;
+      width: 136px;
+      height: 227px;
+      background: linear-gradient(145deg, #1b2820 0%, #0d1612 100%);
+      border: 1.5px solid #d4af37;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 8px;
+      color: #fce8b3;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .tarot-card::before {
+      content: "";
+      position: absolute;
+      top: 4px; left: 4px; right: 4px; bottom: 4px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 7px;
+      pointer-events: none;
+    }
+
+    .tarot-card-symbol {
+      width: 54px;
+      height: 54px;
+      border: 1px dashed rgba(212, 175, 55, 0.5);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      font-size: 20px;
+      color: #d4af37;
+    }
+
+    .tarot-card-text { font-size: 20.8px; font-weight: 700; color: #fce8b3; margin-bottom: 13px; }
+
+    .tarot-hint {
+      font-size: 20.8px;
+      color: var(--text-sub);
+      margin-top: 18px; 
+      font-weight: 600;
+      opacity: 0.85;
+    }
+
+    .skill-right-panel {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hobby-section-title {
+      font-size: 36.4px;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .hobby-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      flex: 1;
+    }
+
+    .hobby-card {
+      overflow: hidden;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    .carousel { 
+      position: relative; 
+      width: 100%; 
+      aspect-ratio: 16 / 9;
+      flex: 1; 
+    }
+    .carousel img { position: absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transition: opacity 0.5s ease; }
+    .carousel img.active { opacity: 1; }
+    .hobby-title { padding: 12px; font-size: 22.1px; font-weight: 700; color: var(--text-main); background: rgba(255, 255, 255, 0.6); }
+
+    /* ================= 模块 6: 联系我 ================= */
+    .contact-wrapper {
+      position: relative;
+      max-width: 1235px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .art-bg-decoration {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .art-circle-1 {
+      position: absolute;
+      width: 440px;
+      height: 440px;
+      top: -80px;
+      left: -65px;
+      background: radial-gradient(circle, rgba(160, 215, 185, 0.45) 0%, transparent 70%);
+      filter: blur(25px);
+      animation: floatBg 8s ease-in-out infinite alternate;
+    }
+
+    .art-circle-2 {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      bottom: -90px;
+      right: -50px;
+      background: radial-gradient(circle, rgba(200, 230, 210, 0.55) 0%, transparent 70%);
+      filter: blur(30px);
+      animation: floatBg 10s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes floatBg {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 25px) scale(1.08); }
+    }
+
+    .contact-container {
+      text-align: center;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      padding: 62px 52px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(215, 240, 225, 0.75) 100%);
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      border-radius: 42px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 26px 65px rgba(45, 90, 67, 0.15);
+      background-image: radial-gradient(rgba(45, 90, 67, 0.08) 1.2px, transparent 0);
+      background-size: 26px 26px;
+      transition: all 0.35s ease;
+    }
+    .contact-container:hover {
+      box-shadow: 0 32px 75px rgba(45, 90, 67, 0.22);
+    }
+
+    .contact-title {
+      font-size: 71.5px;
+      font-weight: 700;
+      margin-bottom: 58px;
+      color: var(--text-main);
+      line-height: 1.4;
+      letter-spacing: 1px;
+    }
+
+    .cards-wrapper {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+    }
+
+    .flip-card {
+      width: 325px;
+      height: 150px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: translateY(-5px);
+    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg) translateY(-5px); }
+
+    .flip-front, .flip-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(45, 90, 67, 0.12);
+    }
+
+    .flip-front {
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(220,242,228,0.85));
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      font-size: 28.6px;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    .flip-back {
+      background: linear-gradient(135deg, #2d5a43, #1e3f2e);
+      color: #fff;
+      transform: rotateY(180deg);
+      font-size: 22.1px;
+      word-break: break-all;
+    }
+
+    .flip-back span { margin-top: 8px; font-size: 16.9px; opacity: 0.8; }
+  </style>
+</head>
+<body>
+
+  <!-- 动态弥散渐变背景 + 底纹 Pattern -->
+  <div class="bg-mesh"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- 视口自适应外层容器 -->
+  <div class="app-viewport" id="appViewport">
+
+    <!-- 顶部悬浮胶囊导航栏 -->
+    <header>
+      <div class="logo">
+        <span class="logo-badge"></span>
+        Cao Jiajia
+      </div>
+      <nav>
+        <a class="nav-link-item active" onclick="goToSlide(0)">关于我</a>
+        <a class="nav-link-item" onclick="goToSlide(1)">教育背景</a>
+        <a class="nav-link-item" onclick="goToSlide(2)">校园成就</a>
+        <a class="nav-link-item" onclick="goToSlide(3)">实习经历</a>
+        <a class="nav-link-item" onclick="goToSlide(4)">技能爱好</a>
+      </nav>
+      <a class="nav-link-item contact-btn-style" onclick="goToSlide(5)">联系我</a>
+    </header>
+
+    <!-- 左右翻页按钮 -->
+    <div class="nav-arrow left disabled" id="prevBtn" onclick="prevSlide()">&#10094;</div>
+    <div class="nav-arrow right" id="nextBtn" onclick="nextSlide()">&#10095;</div>
+
+    <!-- 全屏主容器 -->
+    <div class="slider-container" id="slider">
+
+      <!-- 1. 关于我 -->
+      <section>
+        <div class="who-container">
+          <div class="who-left">
+            <div class="who-title">Hello<br>我是曹佳佳</div>
+            <div class="who-subtitle-box">
+              <div class="who-subtitle-cn">互联网行业 / 策略运营</div>
+              <div class="who-subtitle-en">Internet Industry / Strategy Operations</div>
+            </div>
+            <p class="who-motto">“人生不设限，持续破圈，于万千次重塑中见天地”</p>
+            <div class="who-cards">
+              <div class="gradient-card">多学科交叉</div>
+              <div class="gradient-card">六边形学生</div>
+              <div class="gradient-card">互联网实习</div>
+            </div>
+          </div>
+          <div class="who-right">
+            <div class="photo-wrapper">
+              <div class="connie-tag">Connie</div>
+              <div class="photo-bg-block"></div>
+              <img src="myself.jpg" alt="曹佳佳" class="who-img" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. 教育背景 -->
+      <section>
+        <div class="section-header edu-header">
+          <div class="section-slogan-cn">去做想做的，寻找阶段性的最优解</div>
+          <div class="section-slogan-en">Do what I love, and find the best way forward</div>
+        </div>
+        <div class="edu-container">
+          <div class="edu-card glass-card">
+            <img src="school1.jpg" alt="西安交通大学" />
+            <div class="edu-card-body">
+              <div class="edu-school-row">
+                <span class="school">西安交通大学</span>
+                <span class="date">2020.09 - 2024.06</span>
+              </div>
+              <div class="college">人居环境与建筑工程学院</div>
+              <div class="degree">工学学士</div>
+              <div class="major-highlight-full">大数据与智慧城市</div>
+            </div>
+          </div>
+
+          <div class="edu-card glass-card">
+            <img src="school2.jpg" alt="西安交通大学" />
+            <div class="edu-card-body">
+              <div class="edu-school-row">
+                <span class="school">西安交通大学</span>
+                <span class="date">2022.03 - 2024.06</span>
+              </div>
+              <div class="college">经济与金融学院</div>
+              <div class="degree">经济学学士</div>
+              <div class="major-highlight-full">金融学</div>
+            </div>
+          </div>
+
+          <div class="edu-card glass-card">
+            <img src="school3.jpg" alt="西安交通大学" />
+            <div class="edu-card-body">
+              <div class="edu-school-row">
+                <span class="school">西安交通大学</span>
+                <span class="date">2024.09 - 2027.06</span>
+              </div>
+              <div class="college">公共政策与管理学院</div>
+              <div class="degree">管理学硕士</div>
+              <div class="major-highlight-full">公共管理学</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 校园成就 -->
+      <section>
+        <div class="section-header campus-header">
+          <div class="section-slogan-cn">在自己的时区里，不断攀爬</div>
+          <div class="section-slogan-en">Ascend at my own pace, one steady step at a time</div>
+        </div>
+        <div class="campus-grid">
+          <!-- 论文 1 -->
+          <div class="paper-item-card glass-card">
+            <div>
+              <div class="paper-header-row">
+                <span class="paper-date">2026.05</span>
+                <span class="paper-tag-highlight">已发表</span>
+                <span class="paper-tag">学生一作</span>
+                <span class="paper-tag">SCI 一区</span>
+              </div>
+              <h4>《Frontiers in public health》</h4>
+              <p>Re-evaluating suburban green spaces: their role in depression mitigation and social resilience</p>
+            </div>
+            <a href="paper1.pdf" download>下载论文 PDF &#10515;</a>
+          </div>
+
+          <!-- 论文 2 -->
+          <div class="paper-item-card glass-card">
+            <div>
+              <div class="paper-header-row">
+                <span class="paper-date">2025.08</span>
+                <span class="paper-tag-highlight">已发表</span>
+                <span class="paper-tag">学生一作</span>
+                <span class="paper-tag">SCI 二区</span>
+              </div>
+              <h4>《Utilities Policy》</h4>
+              <p>How policies impact household waste-source separation: an exploratory study of China</p>
+            </div>
+            <a href="paper2.pdf" download>下载论文 PDF &#10515;</a>
+          </div>
+
+          <!-- 学生工作 -->
+          <div class="scroll-card-box glass-card">
+            <div class="box-header-row">
+              <h4>学生工作</h4>
+              <span class="sub-tip">可上下滑动</span>
+            </div>
+            <div class="scroll-content-work-grid">
+              <div class="work-item-row"><img src="page1.jpg" /><div class="info"><h5>学生通讯社社长</h5><span>2025.09 - 2026.06</span></div></div>
+              <div class="work-item-row"><img src="page2.jpg" /><div class="info"><h5>公管学院纪律委员</h5><span>2025.09 - 2026.06</span></div></div>
+              <div class="work-item-row"><img src="page3.jpg" /><div class="info"><h5>党委研工部兼职辅导员</h5><span>2025.03 - 2025.07</span></div></div>
+              <div class="work-item-row"><img src="page4.jpg" /><div class="info"><h5>本科生核心标杆课助教</h5><span>2024.09 - 2024.12</span></div></div>
+              <div class="work-item-row"><img src="page5.jpg" /><div class="info"><h5>人居文治彭康本科生党支部组织委员</h5><span>2023.09 - 2024.06</span></div></div>
+              <div class="work-item-row"><img src="page6.jpg" /><div class="info"><h5>实践教学中心助管</h5><span>2024.03 - 2024.06</span></div></div>
+              <div class="work-item-row"><img src="page7.jpg" /><div class="info"><h5>团委社会实践指导中心副主任</h5><span>2022.09 - 2023.06</span></div></div>
+              <div class="work-item-row"><img src="page8.jpg" /><div class="info"><h5>健身舞蹈协会部长</h5><span>2022.09 - 2023.06</span></div></div>
+              <div class="work-item-row"><img src="page9.jpg" /><div class="info"><h5>彭康书院团委实践中心部长</h5><span>2021.09 - 2022.06</span></div></div>
+              <div class="work-item-row"><img src="page10.jpg" /><div class="info"><h5>智慧人居003班班长</h5><span>2020.09 - 2021.06</span></div></div>
+            </div>
+          </div>
+
+          <!-- 荣誉成就 -->
+          <div class="scroll-card-box glass-card">
+            <div class="box-header-row">
+              <h4>荣誉成就</h4>
+              <span class="sub-tip">三列均可独立上下滑动</span>
+            </div>
+            <div class="award-triple-container">
+              <!-- 奖学金列 -->
+              <div class="award-sub-card">
+                <h5>奖学金</h5>
+                <div class="award-sub-list">
+                  <div class="award-sub-item"><span class="date">2025/12</span> 特等奖学金</div>
+                  <div class="award-sub-item"><span class="date">2025/12</span> 招生育才奖学金</div>
+                  <div class="award-sub-item"><span class="date">2024/10</span> 特等奖学金</div>
+                  <div class="award-sub-item"><span class="date">2022/12</span> 三等奖学金</div>
+                  <div class="award-sub-item"><span class="date">2021/12</span> 土建学科教育发展基金奖学金</div>
+                </div>
+              </div>
+
+              <!-- 荣誉表彰列 -->
+              <div class="award-sub-card">
+                <h5>荣誉表彰</h5>
+                <div class="award-sub-list">
+                  <div class="award-sub-item"><span class="date">2025/12</span> 优秀研究生</div>
+                  <div class="award-sub-item"><span class="date">2025/12</span> 校媒联盟矩阵优秀个人</div>
+                  <div class="award-sub-item"><span class="date">2024/11</span> 校媒联盟矩阵优秀个人</div>
+                  <div class="award-sub-item"><span class="date">2023/05</span> 优秀共青团干部</div>
+                  <div class="award-sub-item"><span class="date">2022/12</span> 优秀学生</div>
+                  <div class="award-sub-item"><span class="date">2022/12</span> 先进个人</div>
+                  <div class="award-sub-item"><span class="date">2022/11</span> 校园文化与精神文明单项奖-劳动实践奖（每年每项仅10人）</div>
+                  <div class="award-sub-item"><span class="date">2022/05</span> 优秀共青团员</div>
+                  <div class="award-sub-item"><span class="date">2022/01</span> 先进个人</div>
+                  <div class="award-sub-item"><span class="date">2021/12</span> 优秀学生干部</div>
+                </div>
+              </div>
+
+              <!-- 科研竞赛列 -->
+              <div class="award-sub-card">
+                <h5>科研竞赛</h5>
+                <div class="award-sub-list">
+                  <div class="award-level-tag">【国家级】</div>
+                  <div class="award-sub-item"><span class="date">2025/08</span> “华数杯”全国大学生数学建模竞赛一等奖</div>
+                  <div class="award-sub-item"><span class="date">2022/12</span> 2022年立邦为爱上色中国大学生农村支教奖全国铜奖</div>
+                  <div class="award-sub-item"><span class="date">2021/12</span> 全国大学生健身瑜伽比赛大集体第八名</div>
+
+                  <div class="award-level-tag">【省级】</div>
+                  <div class="award-sub-item"><span class="date">2024/09</span> 中国国际大学生创新创业大赛（2024）陕西赛区金奖2项</div>
+                  <div class="award-sub-item"><span class="date">2023/10</span> 共青团陕西省委秦岭生态科学考察项目唯 2 特别奖励项目</div>
+                  <div class="award-sub-item"><span class="date">2023/09</span> 中国“互联网+”大学生创新创业大赛陕西赛区金奖</div>
+                  <div class="award-sub-item"><span class="date">2023/08</span> 第十二届中国创新创业大赛河北雄安新区暨雄安新区第四届“智绘未来”创新创业大赛团体组三等奖</div>
+                  <div class="award-sub-item"><span class="date">2023/06</span> 大学生创新创业训练项目省级项目2项</div>
+                  <div class="award-sub-item"><span class="date">2023/05</span> 全国青年科普创新作品大赛陕西赛区三等奖</div>
+                  <div class="award-sub-item"><span class="date">2022/11</span> 陕西省2022年“石榴籽籽一家亲”筑牢中华民族共同体意识专项实践活动优秀团队</div>
+                  <div class="award-sub-item"><span class="date">2021/06</span> 陕西省首届大学生健身瑜伽比赛团体第六名、自编第七名</div>
+
+                  <div class="award-level-tag">【校级】</div>
+                  <div class="award-sub-item"><span class="date">2026/05</span> “腾飞杯”创新创业大赛二等奖</div>
+                  <div class="award-sub-item"><span class="date">2025/12</span> 校媒联盟矩阵优秀文章奖</div>
+                  <div class="award-sub-item"><span class="date">2025/07</span> 创新创业大赛（2025）校级银奖</div>
+                  <div class="award-sub-item"><span class="date">2024/07</span> 创新创业大赛（2024）校级金奖</div>
+                  <div class="award-sub-item"><span class="date">2023/07</span> “互联网+”创新创业大赛金奖、银奖、铜奖</div>
+                  <div class="award-sub-item"><span class="date">2023/05</span> “腾飞杯”创新创业大赛特等奖</div>
+                  <div class="award-sub-item"><span class="date">2023/05</span> 结构设计竞赛二等奖</div>
+                  <div class="award-sub-item"><span class="date">2023/05</span> “清远杯”创业大赛铜奖</div>
+                  <div class="award-sub-item"><span class="date">2022/12</span> 社会实践优秀团队</div>
+                  <div class="award-sub-item"><span class="date">2022/11</span> 第七届社会实践青年研究年会一等奖</div>
+                  <div class="award-sub-item"><span class="date">2022/05</span> 结构设计竞赛二等奖</div>
+                  <div class="award-sub-item"><span class="date">2021/11</span> 第六届社会实践青年研究年会三等奖</div>
+                  <div class="award-sub-item"><span class="date">2021/05</span> 数学新生杯建模校级三等奖</div>
+                  <div class="award-sub-item"><span class="date">2021/05</span> 结构设计竞赛三等奖</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. 实习经历 -->
+      <section>
+        <div class="section-header intern-header">
+          <div class="section-slogan-cn">在互联网中对话商业的无限可能</div>
+          <div class="section-slogan-en">Conversing with the boundless possibilities of business in the Internet realm</div>
+        </div>
+        <div class="intern-container">
+          <div class="intern-card glass-card">
+            <img src="bytedance.jpg" alt="字节跳动" />
+            <div class="intern-body">
+              <div class="intern-header-row">
+                <h3>字节跳动</h3>
+                <span class="intern-date">2026.01 - 2026.06</span>
+              </div>
+              <div class="intern-dept-post-row">
+                <span>抖音电商食品生鲜行业</span>
+                <span>行业运营实习生（策略）</span>
+              </div>
+              <div class="intern-tags">
+                <div class="intern-tag-item">深度参与年货节和618大促</div>
+                <div class="intern-tag-item">行业/商家策略输出</div>
+                <div class="intern-tag-item">商家资源对接与卡点解决</div>
+                <div class="intern-tag-item">价格力POC</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="intern-card glass-card">
+            <img src="dewu.jpg" alt="得物" />
+            <div class="intern-body">
+              <div class="intern-header-row">
+                <h3>得物</h3>
+                <span class="intern-date">2025.08 - 2025.11</span>
+              </div>
+              <div class="intern-dept-post-row">
+                <span>潮流生活业务部家居行业</span>
+                <span>行业运营实习生（新商）</span>
+              </div>
+              <div class="intern-tags">
+                <div class="intern-tag-item">招商拓商</div>
+                <div class="intern-tag-item">新商冷启动</div>
+                <div class="intern-tag-item">品牌落库流程优化</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="intern-card glass-card">
+            <img src="pingan.jpg" alt="平安银行" />
+            <div class="intern-body">
+              <div class="intern-header-row">
+                <h3>平安银行</h3>
+                <span class="intern-date">2023.04 - 2023.07</span>
+              </div>
+              <div class="intern-dept-post-row">
+                <span>基础零售部</span>
+                <span>销售运营实习生</span>
+              </div>
+              <div class="intern-tags">
+                <div class="intern-tag-item">销售活动策划</div>
+                <div class="intern-tag-item">销售数据分析</div>
+                <div class="intern-tag-item">视觉海报和宣传视频制作</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. 技能爱好 -->
+      <section>
+        <div class="section-header skill-header">
+          <div class="section-slogan-cn">底色多元，热爱不息</div>
+          <div class="section-slogan-en">Diverse in essence, fueled by passion</div>
+        </div>
+        <div class="skill-layout-container">
+          <div class="skill-left-panel">
+            <div class="tarot-area">
+              <div class="tarot-box glass-card">
+                <h4>性格底色</h4>
+                <div class="deck" id="personalityDeck" onclick="drawCard('personality')"></div>
+                <div class="tarot-hint">点击卡片抽取</div>
+              </div>
+              <div class="tarot-box glass-card">
+                <h4>Skills</h4>
+                <div class="deck" id="skillsDeck" onclick="drawCard('skills')"></div>
+                <div class="tarot-hint">点击卡片抽取</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-right-panel">
+            <div class="hobby-section-title">兴趣爱好</div>
+            <div class="hobby-grid">
+              <div class="hobby-card glass-card">
+                <div class="carousel" id="drawCarousel">
+                  <img src="draw1.jpg" class="active" />
+                  <img src="draw2.jpg" />
+                  <img src="draw3.jpg" />
+                  <img src="draw4.jpg" />
+                </div>
+                <div class="hobby-title">绘画</div>
+              </div>
+              <div class="hobby-card glass-card">
+                <div class="carousel" id="photoCarousel">
+                  <img src="photo1.jpg" class="active" />
+                  <img src="photo2.jpg" />
+                  <img src="photo3.jpg" />
+                  <img src="photo4.jpg" />
+                </div>
+                <div class="hobby-title">拍照</div>
+              </div>
+              <div class="hobby-card glass-card">
+                <div class="carousel">
+                  <img src="yoga.jpg" class="active" />
+                </div>
+                <div class="hobby-title">瑜伽</div>
+              </div>
+              <div class="hobby-card glass-card">
+                <div class="carousel">
+                  <img src="tabletennis.jpg" class="active" />
+                </div>
+                <div class="hobby-title">羽毛球</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. 联系我 -->
+      <section>
+        <div class="contact-wrapper">
+          <div class="art-bg-decoration">
+            <div class="art-circle-1"></div>
+            <div class="art-circle-2"></div>
+          </div>
+
+          <div class="contact-container">
+            <h2 class="contact-title">心有旷野，步履不停<br>下一段经历我们共同创造</h2>
+            <div class="cards-wrapper">
+              <div class="flip-card" onclick="flipAndCopy(this, 'caojiajia0516@163.com')">
+                <div class="flip-card-inner">
+                  <div class="flip-front">电子邮箱</div>
+                  <div class="flip-back">
+                    caojiajia0516@163.com
+                    <span>(点击已复制)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flip-card" onclick="flipAndCopy(this, '15159479157')">
+                <div class="flip-card-inner">
+                  <div class="flip-front">电话与微信</div>
+                  <div class="flip-back">
+                    15159479157
+                    <span>(点击已复制)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flip-card" onclick="downloadResume(this)">
+                <div class="flip-card-inner">
+                  <div class="flip-front">个人简历</div>
+                  <div class="flip-back">
+                    点击下载完整简历
+                    <span>(曹佳佳简历.pdf)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    // 0. 自适应响应式缩放
+    const BASE_WIDTH = 1965.6;
+    const BASE_HEIGHT = 1105;
+
+    function handleResize() {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      const scaleX = windowWidth / BASE_WIDTH;
+      const scaleY = windowHeight / BASE_HEIGHT;
+      const scale = Math.min(scaleX, scaleY);
+
+      const appViewport = document.getElementById('appViewport');
+      appViewport.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    }
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+    document.addEventListener('DOMContentLoaded', handleResize);
+
+    // 1. 全屏横向滑动与导航完全同步逻辑（修复高亮问题）
+    let currentSlide = 0;
+    const totalSlides = 6;
+    const slider = document.getElementById('slider');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    // 抓取所有添加了 .nav-link-item 的标签
+    const navLinks = document.querySelectorAll('.nav-link-item');
+
+    function updateSlide() {
+      // 切换视图
+      slider.style.transform = `translateX(-${currentSlide * BASE_WIDTH}px)`;
+      prevBtn.classList.toggle('disabled', currentSlide === 0);
+      nextBtn.classList.toggle('disabled', currentSlide === totalSlides - 1);
+
+      // 彻底清空所有高亮，确保绝对不会叠加
+      navLinks.forEach((link) => {
+        link.classList.remove('active');
+      });
+
+      // 单独给当前页索引的导航按钮施加 active
+      if (navLinks[currentSlide]) {
+        navLinks[currentSlide].classList.add('active');
+      }
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlide();
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    // 2. 手势及触屏滑动（支持原生放大手势）
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      // 如果当前是多点触摸（例如双指放大），直接退出手势滑动翻页判定
+      if (e.touches.length > 1) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+      if (e.touches.length > 0) return;
+      
+      const target = e.target;
+      // 排除局部小容器的滑动干扰
+      if (target && target.closest && (target.closest('.scroll-content-work-grid') || target.closest('.award-sub-list'))) {
+        const deltaY = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        if (deltaY > 30) return;
+      }
+
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+
+      // 判定水平拖拽滑页
+      if (Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+    }, { passive: true });
+
+    // 3. 塔罗牌抽卡逻辑
+    const personalityItems = ['ENFP', '浅浅地卷', '情绪稳定', '活力热情', '超强执行力', 'Ownership', '开放包容', '终身学习', '多线程协调'];
+    const skillsItems = ['AI技能', '数据分析', '文案撰写', '物料设计'];
+
+    function initDeck(deckId, items) {
+      const container = document.getElementById(deckId);
+      container.innerHTML = '';
+      items.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'tarot-card';
+        card.innerHTML = `
+          <div class="tarot-card-symbol">✦</div>
+          <span class="tarot-card-text">${item}</span>
+        `;
+        card.style.transform = `translate(${idx * 5 - 20}px, ${idx * 3 - 10}px) rotate(${idx * 3 - 5}deg)`;
+        card.style.zIndex = items.length - idx;
+        container.appendChild(card);
+      });
+    }
+
+    initDeck('personalityDeck', personalityItems);
+    initDeck('skillsDeck', skillsItems);
+
+    function drawCard(type) {
+      const deckId = type === 'personality' ? 'personalityDeck' : 'skillsDeck';
+      const container = document.getElementById(deckId);
+      const cards = container.querySelectorAll('.tarot-card');
+      if (cards.length === 0) return;
+
+      const topCard = cards[0];
+      topCard.style.transform = `translateY(-140px) scale(1.08) rotate(0deg)`;
+      topCard.style.zIndex = 99;
+
+      setTimeout(() => {
+        container.appendChild(topCard);
+        const newCards = container.querySelectorAll('.tarot-card');
+        newCards.forEach((c, idx) => {
+          c.style.transform = `translate(${idx * 5 - 20}px, ${idx * 3 - 10}px) rotate(${idx * 3 - 5}deg)`;
+          c.style.zIndex = newCards.length - idx;
+        });
+      }, 450);
+    }
+
+    // 4. 图片轮播
+    function startCarousel(carouselId) {
+      const imgs = document.querySelectorAll(`#${carouselId} img`);
+      if (imgs.length <= 1) return;
+      let idx = 0;
+      setInterval(() => {
+        imgs[idx].classList.remove('active');
+        idx = (idx + 1) % imgs.length;
+        imgs[idx].classList.add('active');
+      }, 3000);
+    }
+
+    startCarousel('drawCarousel');
+    startCarousel('photoCarousel');
+
+    // 5. 卡片翻转交互
+    function flipAndCopy(card, text) {
+      card.classList.toggle('flipped');
+      navigator.clipboard.writeText(text);
+    }
+
+    function downloadResume(card) {
+      card.classList.toggle('flipped');
+      const a = document.createElement('a');
+      a.href = '曹佳佳简历.pdf';
+      a.download = '曹佳佳简历.pdf';
+      a.click();
+    }
+  </script>
+</body>
+</html>
