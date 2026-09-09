@@ -230,7 +230,7 @@
 
     .edu-header { margin-bottom: 60px; }
     .campus-header { margin-bottom: 35px; }
-    .intern-header { margin-bottom: 40px; }
+    .intern-header { margin-bottom: 25px; }
     .skill-header { margin-bottom: 60px; }
 
     /* 左右翻页按钮 */
@@ -635,48 +635,20 @@
     .award-level-tag { font-size: 14px; font-weight: 700; color: var(--accent-color); margin: 6px 0 2px 0; border-bottom: 1.5px dashed rgba(45, 90, 67, 0.25); padding-bottom: 2px; }
 
     /* ================= 模块 4: 实习经历 ================= */
-    .intern-section-content {
+    .intern-outer-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-width: 1560px;
+      max-width: 1620px;
       width: 100%;
-      gap: 28px;
+      gap: 30px;
     }
 
     .intern-container {
       display: flex;
-      gap: 28px;
-      width: 100%;
-    }
-
-    .intern-download-box {
-      display: flex;
       justify-content: center;
+      gap: 35px;
       width: 100%;
-    }
-
-    .intern-download-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 36px;
-      font-size: 22.1px;
-      font-weight: 700;
-      color: #fff;
-      background: linear-gradient(135deg, #2d5a43 0%, #1e3f2e 100%);
-      border: 1.5px solid rgba(255, 255, 255, 0.8);
-      border-radius: 30px;
-      text-decoration: none;
-      box-shadow: var(--shadow-soft);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .intern-download-btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: var(--shadow-hover);
-      background: linear-gradient(135deg, #1e3f2e 0%, #142c20 100%);
     }
 
     .intern-card { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
@@ -723,6 +695,38 @@
       transform: translateX(4px);
       background: linear-gradient(135deg, #2d5a43, #1e3f2e);
       color: #fff;
+    }
+
+    /* 新增：实习证明下载区域样式 */
+    .intern-cert-download-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    .intern-cert-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 40px;
+      background: linear-gradient(135deg, #2d5a43 0%, #1e3f2e 100%);
+      color: #ffffff;
+      font-size: 22.5px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 50px;
+      box-shadow: 0 10px 25px rgba(45, 90, 67, 0.25);
+      border: 1.5px solid rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .intern-cert-btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 16px 35px rgba(45, 90, 67, 0.35);
+      background: linear-gradient(135deg, #1e3f2e 0%, #12281d 100%);
     }
 
     /* ================= 模块 5: 技能爱好 ================= */
@@ -1239,7 +1243,9 @@
           <div class="section-slogan-cn">在互联网中对话商业的无限可能</div>
           <div class="section-slogan-en">Conversing with the boundless possibilities of business in the Internet realm</div>
         </div>
-        <div class="intern-section-content">
+        
+        <div class="intern-outer-wrapper">
+          <!-- 3个实习卡片容器 -->
           <div class="intern-container">
             <div class="intern-card glass-card">
               <img src="bytedance.jpg" alt="字节跳动" />
@@ -1299,9 +1305,10 @@
               </div>
             </div>
           </div>
-          <!-- 3个实习经历下方加入实习证明下载链接 -->
-          <div class="intern-download-box">
-            <a href="曹佳佳实习证明.pdf" download="曹佳佳实习证明.pdf" class="intern-download-btn">
+
+          <!-- 在3个实习经历下方新增：实习证明下载按钮模块 -->
+          <div class="intern-cert-download-bar">
+            <a href="曹佳佳实习证明.pdf" download="曹佳佳实习证明.pdf" class="intern-cert-btn">
               实习证明下载 &#10515;
             </a>
           </div>
@@ -1435,27 +1442,23 @@
     window.addEventListener('orientationchange', handleResize);
     document.addEventListener('DOMContentLoaded', handleResize);
 
-    // 1. 全屏横向滑动与导航完全同步逻辑（修复高亮问题）
+    // 1. 全屏横向滑动与导航完全同步逻辑
     let currentSlide = 0;
     const totalSlides = 6;
     const slider = document.getElementById('slider');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    // 抓取所有添加了 .nav-link-item 的标签
     const navLinks = document.querySelectorAll('.nav-link-item');
 
     function updateSlide() {
-      // 切换视图
       slider.style.transform = `translateX(-${currentSlide * BASE_WIDTH}px)`;
       prevBtn.classList.toggle('disabled', currentSlide === 0);
       nextBtn.classList.toggle('disabled', currentSlide === totalSlides - 1);
 
-      // 彻底清空所有高亮，确保绝对不会叠加
       navLinks.forEach((link) => {
         link.classList.remove('active');
       });
 
-      // 单独给当前页索引的导航按钮施加 active
       if (navLinks[currentSlide]) {
         navLinks[currentSlide].classList.add('active');
       }
@@ -1485,7 +1488,6 @@
     let touchStartY = 0;
 
     document.addEventListener('touchstart', (e) => {
-      // 如果当前是多点触摸（例如双指放大），直接退出手势滑动翻页判定
       if (e.touches.length > 1) return;
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
@@ -1495,7 +1497,6 @@
       if (e.touches.length > 0) return;
       
       const target = e.target;
-      // 排除局部小容器的滑动干扰
       if (target && target.closest && (target.closest('.scroll-content-work-grid') || target.closest('.award-sub-list'))) {
         const deltaY = Math.abs(e.changedTouches[0].clientY - touchStartY);
         if (deltaY > 30) return;
@@ -1506,7 +1507,6 @@
       const diffX = touchEndX - touchStartX;
       const diffY = touchEndY - touchStartY;
 
-      // 判定水平拖拽滑页
       if (Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY)) {
         if (diffX < 0) {
           nextSlide();
@@ -1517,7 +1517,7 @@
     }, { passive: true });
 
     // 3. 塔罗牌抽卡逻辑
-    const personalityItems = ['ENFP', 'Ownership', '不断攀登', '情绪稳定', '活力热情', '超强执行力', '开放包容', '终身学习', '多线程协调'];
+    const personalityItems = ['ENFP', '浅浅地卷', '情绪稳定', '活力热情', '超强执行力', 'Ownership', '开放包容', '终身学习', '多线程协调'];
     const skillsItems = ['AI技能', '数据分析', '文案撰写', '物料设计'];
 
     function initDeck(deckId, items) {
