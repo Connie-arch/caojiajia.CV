@@ -230,7 +230,7 @@
 
     .edu-header { margin-bottom: 60px; }
     .campus-header { margin-bottom: 35px; }
-    .intern-header { margin-bottom: 60px; }
+    .intern-header { margin-bottom: 40px; }
     .skill-header { margin-bottom: 60px; }
 
     /* 左右翻页按钮 */
@@ -635,11 +635,48 @@
     .award-level-tag { font-size: 14px; font-weight: 700; color: var(--accent-color); margin: 6px 0 2px 0; border-bottom: 1.5px dashed rgba(45, 90, 67, 0.25); padding-bottom: 2px; }
 
     /* ================= 模块 4: 实习经历 ================= */
+    .intern-section-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 1560px;
+      width: 100%;
+      gap: 28px;
+    }
+
     .intern-container {
       display: flex;
       gap: 28px;
-      max-width: 1560px;
       width: 100%;
+    }
+
+    .intern-download-box {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .intern-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 36px;
+      font-size: 22.1px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #2d5a43 0%, #1e3f2e 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.8);
+      border-radius: 30px;
+      text-decoration: none;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .intern-download-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: var(--shadow-hover);
+      background: linear-gradient(135deg, #1e3f2e 0%, #142c20 100%);
     }
 
     .intern-card { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
@@ -1202,63 +1239,71 @@
           <div class="section-slogan-cn">在互联网中对话商业的无限可能</div>
           <div class="section-slogan-en">Conversing with the boundless possibilities of business in the Internet realm</div>
         </div>
-        <div class="intern-container">
-          <div class="intern-card glass-card">
-            <img src="bytedance.jpg" alt="字节跳动" />
-            <div class="intern-body">
-              <div class="intern-header-row">
-                <h3>字节跳动</h3>
-                <span class="intern-date">2026.01 - 2026.06</span>
+        <div class="intern-section-content">
+          <div class="intern-container">
+            <div class="intern-card glass-card">
+              <img src="bytedance.jpg" alt="字节跳动" />
+              <div class="intern-body">
+                <div class="intern-header-row">
+                  <h3>字节跳动</h3>
+                  <span class="intern-date">2026.01 - 2026.06</span>
+                </div>
+                <div class="intern-dept-post-row">
+                  <span>抖音电商食品生鲜行业</span>
+                  <span>行业运营实习生（策略）</span>
+                </div>
+                <div class="intern-tags">
+                  <div class="intern-tag-item">深度参与年货节和618大促</div>
+                  <div class="intern-tag-item">行业/商家策略输出</div>
+                  <div class="intern-tag-item">商家资源对接与卡点解决</div>
+                  <div class="intern-tag-item">价格力POC</div>
+                </div>
               </div>
-              <div class="intern-dept-post-row">
-                <span>抖音电商食品生鲜行业</span>
-                <span>行业运营实习生（策略）</span>
+            </div>
+
+            <div class="intern-card glass-card">
+              <img src="dewu.jpg" alt="得物" />
+              <div class="intern-body">
+                <div class="intern-header-row">
+                  <h3>得物</h3>
+                  <span class="intern-date">2025.08 - 2025.11</span>
+                </div>
+                <div class="intern-dept-post-row">
+                  <span>潮流生活业务部家居行业</span>
+                  <span>行业运营实习生（新商）</span>
+                </div>
+                <div class="intern-tags">
+                  <div class="intern-tag-item">招商拓商</div>
+                  <div class="intern-tag-item">新商冷启动</div>
+                  <div class="intern-tag-item">品牌落库流程优化</div>
+                </div>
               </div>
-              <div class="intern-tags">
-                <div class="intern-tag-item">深度参与年货节和618大促</div>
-                <div class="intern-tag-item">行业/商家策略输出</div>
-                <div class="intern-tag-item">商家资源对接与卡点解决</div>
-                <div class="intern-tag-item">价格力POC</div>
+            </div>
+
+            <div class="intern-card glass-card">
+              <img src="pingan.jpg" alt="平安银行" />
+              <div class="intern-body">
+                <div class="intern-header-row">
+                  <h3>平安银行</h3>
+                  <span class="intern-date">2023.04 - 2023.07</span>
+                </div>
+                <div class="intern-dept-post-row">
+                  <span>基础零售部</span>
+                  <span>销售运营实习生</span>
+                </div>
+                <div class="intern-tags">
+                  <div class="intern-tag-item">销售活动策划</div>
+                  <div class="intern-tag-item">销售数据分析</div>
+                  <div class="intern-tag-item">视觉海报和宣传视频制作</div>
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="intern-card glass-card">
-            <img src="dewu.jpg" alt="得物" />
-            <div class="intern-body">
-              <div class="intern-header-row">
-                <h3>得物</h3>
-                <span class="intern-date">2025.08 - 2025.11</span>
-              </div>
-              <div class="intern-dept-post-row">
-                <span>潮流生活业务部家居行业</span>
-                <span>行业运营实习生（新商）</span>
-              </div>
-              <div class="intern-tags">
-                <div class="intern-tag-item">招商拓商</div>
-                <div class="intern-tag-item">新商冷启动</div>
-                <div class="intern-tag-item">品牌落库流程优化</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="intern-card glass-card">
-            <img src="pingan.jpg" alt="平安银行" />
-            <div class="intern-body">
-              <div class="intern-header-row">
-                <h3>平安银行</h3>
-                <span class="intern-date">2023.04 - 2023.07</span>
-              </div>
-              <div class="intern-dept-post-row">
-                <span>基础零售部</span>
-                <span>销售运营实习生</span>
-              </div>
-              <div class="intern-tags">
-                <div class="intern-tag-item">销售活动策划</div>
-                <div class="intern-tag-item">销售数据分析</div>
-                <div class="intern-tag-item">视觉海报和宣传视频制作</div>
-              </div>
-            </div>
+          <!-- 3个实习经历下方加入实习证明下载链接 -->
+          <div class="intern-download-box">
+            <a href="曹佳佳实习证明.pdf" download="曹佳佳实习证明.pdf" class="intern-download-btn">
+              实习证明下载 &#10515;
+            </a>
           </div>
         </div>
       </section>
